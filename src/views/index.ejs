@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LiveChat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="w-full h-screen overflow-hidden flex flex-row">
+    <div class="w-[25%] h-full bg-blue-300">
+      <ul class="w-full h-full flex flex-col gap-2 p-2">
+        <%users.map(user => {  %> 
+          <li class="h-[65px] w-full rounded-md bg-blue-500 p-1 select-none">
+            <a href="/<%=user.username%>">
+              <h3 class="text-white font-semibold text-lg"><%=user.full_name %></h3>
+              <p class="text-gray-300 font-semibold text-[18px]">@<%=user.username %></>
+              </a>
+          </li>
+        <% }) %> 
+      </ul>      
+    </div>
+    <script src="https://cdn.socket.io/4.4.0/socket.io.min.js"></script>
+    <script>
+      let socket = io();
+    </script>
+  </body>
+</html>

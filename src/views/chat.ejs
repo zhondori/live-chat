@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LiveChat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+  </head>
+  <body class="w-full h-screen overflow-hidden flex flex-row">
+    <div class="w-[25%] h-full bg-blue-300 border-blue-600 border-r-4">
+      <ul class="w-full h-full flex flex-col gap-2 p-2">
+        <%users.map(user => {  %> 
+          <li class="h-[65px] w-full rounded-md <%=user.username === opponent.username ? "bg-blue-600" : "bg-blue-500"%> p-1 select-none">
+            <a href="/<%=user.username === opponent.username ? user.username+"#" : user.username%>">
+              <h3 class="text-white font-semibold text-lg"><%=user.full_name %></h3>
+              <p class="text-gray-300 font-semibold text-[18px]">@<%=user.username %></>
+              </a>
+          </li>
+        <% }) %> 
+      </ul>      
+    </div>
+    <div class="w-[75%] h-full">
+        <div class="w-full h-[10%] bg-blue-600 flex flex-row p-2 items-center">
+            <h2 class="font-bold text-xl text-white tracking-wide"><%=opponent.full_name%></h2>
+        </div>
+        <div class="w-full h-[80%]">
+            <ul class="w-full h-full msg-list p-2 flex flex-col overflow-y-scroll">
+                <%messages.map(msg => {%>
+                    <li class="w-[260px] shadow-md my-1 h-auto p-[6px] rounded-lg rounded-bl-none <%=msg.from_id == opponent.user_id ? "bg-gray-300" : "bg-gray-700 text-white" %> "><%=msg.text%> </li>
+                <% }) %>
+            </ul>
+        </div>
+        <div class="w-full h-[10%] flex flex-row p-2 gap-2 bg-slate-700">
+            <input type="text" class="msg-field w-[85%] h-full rounded-lg p-2 border-2 border-gray-600 outline-none" placeholder="Type message">
+            <button class="send-btn w-[15%] h-full rounded-lg bg-green-500 text-white font-semibold tracking-wide shadow-md">Send <i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+    <script src="https://cdn.socket.io/4.4.0/socket.io.min.js"></script>
+    <script>
+      let ul = document.querySelector(".msg-list");
+      let btn = document.querySelector(".send-btn");
+      let socket = io();
+      let input = document.querySelector(".msg-field");
+      btn.addEventListener("click", () => {
+          if(input.value) {
+            let to_id = `<%=opponent.user_id%>`
+            socket.emit("message", input.value, to_id);
+            input.value = '';
+          }
+      });
+      socket.on("message", (text, to_id) => {
+        let user_id = "<%=opponent.user_id%>";
+        let li = document.createElement("li");
+        li.innerText = text;
+        li.className = `w-[260px] my-1 h-auto p-1 text-[18px] rounded-md ${to_id === user_id ? "bg-gray-700 text-white" : "bg-gray-300"}`;
+        ul.appendChild(li)
+        ul.scrollTop = document.documentElement.scrollHeight
+      });
+    </script>
+  </body>
+</html>

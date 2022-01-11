@@ -1,0 +1,27 @@
+{
+  "name": "live-chat",
+  "version": "1.0.0",
+  "description": "realtime chat app",
+  "main": "./src/server.js",
+  "scripts": {
+    "start": "node ./src/server.js",
+    "dev": "nodemon ./src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.2",
+    "joi": "^17.5.0",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.29.1",
+    "morgan": "^1.10.0",
+    "pg": "^8.7.1",
+    "sequelize": "^6.12.1",
+    "socket.io": "^4.4.0"
+  }
+}
